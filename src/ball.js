@@ -80,12 +80,7 @@ export default function Ball () {
       k.height()/2,
     ),
     {
-      isMoving: false,
-      speed: 0,
-      velocity: {
-        x: 0,
-        y: 0,
-      },
+      angleInDeg: 0,
     },
     boost(),
     'player-ball'
