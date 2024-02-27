@@ -34,31 +34,14 @@ export default function Game () {
   ]);
 
   const playerBall = ball();
-  console.log(playerBall);
-  playerBall.drag = 1;
-  console.log(playerBall);
-  // k.move(k.mousePos());
-  // k.on('') 
+  playerBall.drag = 0.25;
 
-  let angle = 0;
   k.onMousePress(() => {
-    angle = playerBall.pos.angle(k.mousePos());
-    console.log(angle, k.mousePos())
-    playerBall.rotateTo(angle);
-    // playerBall.isMoving = true;
-    // playerBall.add(rotate(angle));
-    // playerBall.vel = 10000;
-    // playerBall.speed(1000)
-    // playerBall.jump(1000)
-    // playerBall.move(90, 1200);
-    // playerBall.follow(k.mousePos())
-    // playerBall.pos = playerBall.pos.add(k.Vec2.fromAngle(angle).scale(10))
+    const mousePos = k.mousePos();
+    // Rotate player's ball towards mouse pointer
+    const rotation = Math.atan2(mousePos.y - playerBall.pos.y, mousePos.x - playerBall.pos.x);
+    playerBall.rotateTo(rotation);
+    // trigger player's ball movement towards mouse pointer
     playerBall.boost(10);
   });
-
-  // k.onUpdate(() => {
-  //   if (playerBall.isMoving) {
-  //     playerBall.pos = playerBall.pos.add(k.Vec2.fromAngle(angle).scale(10))
-  //   }
-  // })
 }
