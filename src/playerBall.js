@@ -23,9 +23,10 @@ export default function PlayerBall () {
     const angleInDeg = radToDeg(angle);
     // save human-readable angle (in degs)
     playerBall.angleInDeg = angleInDeg;
-    playerBall.rotateTo(angle);
+    // playerBall.rotateTo(angle);
+    // k.matter.Body.setAngle(playerBall.body, angle);
     // trigger player's ball movement towards mouse pointer
-    playerBall.boost(20);
+    playerBall.boost(2000, angleInDeg);
   });
 
   // Wall Collision

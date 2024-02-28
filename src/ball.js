@@ -45,11 +45,20 @@ export function boost() {
   return {
     id: 'boost',
     require: ['body'],
-    boost(boostSpeed = 0) {
-      k.matter.Body.setVelocity(this.body, {
-        x: 100,
-        y: 100,
-      });
+    boost(boostSpeed = 0, angle = 0) {
+      console.warn(this)
+      k.matter.Body.setAngle(this.body, angle);
+      k.matter.Body.setSpeed(this.body, boostSpeed);
+      console.warn(this)
+      // k.matter.Body.applyForce(this.body, { x: this.pos.x, y: this.pos.y }, {
+      //   x: Math.cos(this.angleInDeg) * boostSpeed,
+      //   y: Math.sin(this.angleInDeg) * boostSpeed
+      // });
+      // k.matter.Body.setVelocity(this.body, {
+      //   x: Math.cos(this.angle) * boostSpeed,
+      //   y: Math.sin(this.angle) * boostSpeed
+      // });
+      // k.matter.Body.moveBy(this.body, boostSpeed);
       if (boostSpeed >= 0) {
         isMoving = true;
       }
