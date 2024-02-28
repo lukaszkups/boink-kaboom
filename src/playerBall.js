@@ -3,9 +3,15 @@ import { default as Ball } from './ball';
 import { radToDeg } from './helpers';
 
 export default function PlayerBall () {
-  const playerBall = Ball();
+  // Create
+
+  const playerBall = Ball([
+    'player-ball',
+    k.color('#f1f100'),
+  ]);
   playerBall.drag = 0.25;
-  playerBall.color = k.rgb('#f1f100');
+
+  console.log(playerBall);
 
   // Events
 
@@ -24,7 +30,7 @@ export default function PlayerBall () {
 
   // Wall Collision
 
-  k.onCollide('ball', 'wall', (pb, wall) => {
+  k.onCollide('player-ball', 'wall', (pb, wall) => {
     // determine bounce angle
     if (wall.wallId === 'top-wall' || wall.wallId === 'bottom-wall') {
       const angle = -playerBall.angle;
