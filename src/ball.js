@@ -31,50 +31,21 @@ export function boost() {
         } else {
           speed = 0;
           isMoving = false;
+          this.trigger('stopped');
         }
       }
     }
   }
 }
 
-export function bouncy(collisionTag) {
-  const handleBounce = () => {
-    this.rotate = -this.rotate
-  }
-  k.onCollide(this, collisionTag, () => {
-    console.log('collide!!!');
-    handleBounce();
-  });
-  return {
-    id: 'bouncy',
-    handleBounce(collisionDirection) {
-      // if (collisionDirection === '')
-      // this.rotate = -this.rotate;
-      handleBounce();
-    },
-    // update () {
-    //   // // bounce off screen edges
-    //   // if (this.worldArea().p1.x < 0 || this.worldArea().p2.x > width() || this.worldArea().p1.y < 0 || this.worldArea().p2.y > height()) {
-    //   //   this.rotation = -this.rotation;
-    //   // }
-
-    //   // // if (ball.worldArea().p1.y < 0 || ball.worldArea().p2.y > height()) {
-    //   // //   ball.vspeed = -ball.vspeed;
-    //   // // }
-      
-    // }
-  }
-}
-
-
 export default function Ball () {
   return k.add([
-    k.circle(16),
+    k.circle(8),
     k.rotate(0),
     k.area(),
     k.body({ isStatic: true }),
     k.anchor('center'),
-    k.color('#f1f100'),
+    k.color('#ff0000'),
     k.pos(
       k.width()/2,
       k.height()/2,
@@ -83,6 +54,6 @@ export default function Ball () {
       angleInDeg: 0,
     },
     boost(),
-    'player-ball'
+    'ball'
   ]);
 };

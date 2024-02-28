@@ -3,12 +3,12 @@ import k from './kaboom';
 export default function GameBounds () {
   k.setBackground('#1177ff');
   // top wall
-  k.add([
+  const topWall = k.add([
     k.rect(
       k.width(), 
       10
     ),
-    k.pos(0, 10),
+    k.pos(0, -10),
     k.area(),
     k.body({ isStatic: true }),
     k.anchor('topleft'),
@@ -18,12 +18,12 @@ export default function GameBounds () {
   ]);
 
   // bottom wall
-  k.add([
+  const bottomWall = k.add([
     k.rect(
       k.width(), 
       10
     ),
-    k.pos(0, k.height()-20),
+    k.pos(0, k.height()),
     k.area(),
     k.body({ isStatic: true }),
     k.anchor('topleft'),
@@ -33,12 +33,12 @@ export default function GameBounds () {
   ]);
 
   // left wall
-  k.add([
+  const leftWall = k.add([
     k.rect( 
       10,
       k.height(),
     ),
-    k.pos(k.width()-20, 0),
+    k.pos(k.width(), 0),
     k.area(),
     k.body({ isStatic: true }),
     k.anchor('topleft'),
@@ -48,12 +48,12 @@ export default function GameBounds () {
   ]);
 
   // right wall
-  k.add([
+  const rightWall = k.add([
     k.rect( 
       10,
       k.height(),
     ),
-    k.pos(10, 0),
+    k.pos(-10, 0),
     k.area(),
     k.body({ isStatic: true }),
     k.anchor('topleft'),
@@ -61,4 +61,11 @@ export default function GameBounds () {
     { wallId: 'left-wall' },
     'wall',
   ]);
+
+  return {
+    topWall,
+    bottomWall,
+    leftWall,
+    rightWall
+  }
 }
