@@ -8,5 +8,5 @@ export default function Game () {
   GameAudio();
   const { topWall, bottomWall, leftWall, rightWall } = GameBounds();
   const playerBall = PlayerBall();
-  generateBalls(3);
+  generateBalls(50);
 }

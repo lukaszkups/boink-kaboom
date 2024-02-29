@@ -8,7 +8,6 @@ export const angleToVec2 = (angle) => {
 
 export function boost() {
   let isMoving = false;
-  // let speed = 0;
 
   return {
     id: 'boost',
@@ -40,7 +39,6 @@ export function boost() {
 
 export const flash = () => {
   const flashInterval = 0.15;
-  let flashStart = 0;
   let _loop = null;
 
   return {

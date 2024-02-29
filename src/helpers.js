@@ -52,3 +52,17 @@ export const reflectVelocity = (entity) => {
 
   return angle;
 }
+
+export const getOverHere = (entity) => {
+  if (entity.pos.x < 0 ) {
+    entity.pos.x = 1;
+  } else if (entity.pos.x > k.width()) {
+    entity.pos.x = k.width() - 1;
+  }
+
+  if (entity.pos.y < 0 ) {
+    entity.pos.y = 1;
+  } else if (entity.pos.y > k.height()) {
+    entity.pos.y = k.height() - 1;
+  }
+}

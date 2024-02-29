@@ -1,6 +1,6 @@
 import k from './kaboom';
 import { default as Ball } from './ball';
-import { radToDeg } from './helpers';
+import { getOverHere, radToDeg } from './helpers';
 
 export default function PlayerBall () {
   // Create
@@ -8,6 +8,7 @@ export default function PlayerBall () {
   const playerBall = Ball([
     'player-ball',
     k.color('#f1f100'),
+    k.offscreen({ distance: 1 }),
   ]);
   playerBall.drag = 0.2;
 
@@ -25,7 +26,7 @@ export default function PlayerBall () {
     playerBall.angleInDeg = angleInDeg;
     playerBall.rotateTo(angle);
     // trigger player's ball movement towards mouse pointer
-    playerBall.boost(20);
+    playerBall.boost(100);
   });
 
   // Wall Collision
@@ -54,6 +55,10 @@ export default function PlayerBall () {
 
   k.on('stopped', 'ball', (b) => {
     console.log('ball stopped', b);
+  });
+
+  k.onUpdate(() => {
+    getOverHere(playerBall);
   });
 
   return playerBall;
