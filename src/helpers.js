@@ -3,15 +3,16 @@ import k from './kaboom';
 
 export const radToDeg = (angle) => (angle * 180) / Math.PI;
 
-export const generateBalls = (amount) => {
+export const spawnEntity = (entity, amount = 1, extraArgs = []) => {
   for(let counter = 0; counter < amount; counter++) {
     k.add([
-      BoinkBall([
+      entity([
         // randomize position for ball
         k.pos(
           k.rand(8, k.width()-8),
           k.rand(8, k.height()-8),
-        )
+        ),
+        ...extraArgs,
       ]),
     ]);
   }

@@ -5,10 +5,11 @@ import { radToDeg, reflectVelocity } from './helpers';
 export default function BoinkBall (optsArr = []) {
   const ball = Ball([
     k.color('#ffffff'),
+    'boink-ball',
     ...optsArr,
   ]);
 
-  k.onCollide('player-ball', 'ball', (pb, b) => {
+  k.onCollide('player-ball', 'boink-ball', (pb, b) => {
     // check if ball is not already flashing and should not have collision
     if (b.toBeDestroyed) {
       return;

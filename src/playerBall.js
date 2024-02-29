@@ -26,7 +26,7 @@ export default function PlayerBall () {
     playerBall.angleInDeg = angleInDeg;
     playerBall.rotateTo(angle);
     // trigger player's ball movement towards mouse pointer
-    playerBall.boost(100);
+    playerBall.boost(20);
   });
 
   // Wall Collision
