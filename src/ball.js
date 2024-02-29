@@ -6,74 +6,30 @@ export const angleToVec2 = (angle) => {
   return k.vec2(x, y);
 }
 
-// export function boost() {
-//   let isMoving = false;
-//   let speed = 0;
-
-//   return {
-//     id: 'boost',
-//     require: ['body'],
-//     boost(boostSpeed = 0) {
-//       if (boostSpeed >= 0) {
-//         speed = boostSpeed;
-//         isMoving = true;
-//       }
-//     },
-//     update () {
-//       if (isMoving) {
-//         if (speed > 0) {
-//           // move ball by given angle
-//           // source: https://gamedev.stackexchange.com/a/50984/40704
-//           this.pos.x += Math.cos(this.angle) * speed;
-//           this.pos.y += Math.sin(this.angle) * speed;
-//           // reduce speed by Kaboom's built-in "drag" property over time
-//           speed -= this.drag;
-//         } else {
-//           speed = 0;
-//           isMoving = false;
-//           this.trigger('stopped');
-//         }
-//       }
-//     }
-//   }
-// }
-
 export function boost() {
   let isMoving = false;
-  let speed = 0;
+  // let speed = 0;
 
   return {
     id: 'boost',
     require: ['body'],
-    boost(boostSpeed = 0, angle = 0) {
-      console.warn(this)
-      k.matter.Body.setAngle(this.body, angle);
-      k.matter.Body.setSpeed(this.body, boostSpeed);
-      console.warn(this)
-      // k.matter.Body.applyForce(this.body, { x: this.pos.x, y: this.pos.y }, {
-      //   x: Math.cos(this.angleInDeg) * boostSpeed,
-      //   y: Math.sin(this.angleInDeg) * boostSpeed
-      // });
-      // k.matter.Body.setVelocity(this.body, {
-      //   x: Math.cos(this.angle) * boostSpeed,
-      //   y: Math.sin(this.angle) * boostSpeed
-      // });
-      // k.matter.Body.moveBy(this.body, boostSpeed);
+    boost(boostSpeed = 0) {
       if (boostSpeed >= 0) {
+        this.speed = boostSpeed;
         isMoving = true;
       }
     },
     update () {
       if (isMoving) {
-        if (speed > 0) {
+        if (this.speed > 0) {
           // move ball by given angle
           // source: https://gamedev.stackexchange.com/a/50984/40704
-          // this.pos.x += Math.cos(this.angle) * speed;
-          // this.pos.y += Math.sin(this.angle) * speed;
+          this.pos.x += Math.cos(this.angle) * this.speed;
+          this.pos.y += Math.sin(this.angle) * this.speed;
           // reduce speed by Kaboom's built-in "drag" property over time
-          // speed -= this.drag;
+          this.speed -= this.drag;
         } else {
-          speed = 0;
+          this.speed = 0;
           isMoving = false;
           this.trigger('stopped');
         }
@@ -82,25 +38,35 @@ export function boost() {
   }
 }
 
-export function MatterBall () {
-  k.onUpdate(() => {
-    k.matter.Engine.update(k.matter.engine, k.dt());
-  })
-  return {
-    add () {
-      const { x, y } = this.pos;
-      this.body = k.matter.Bodies.circle(x, y, this.radius);
-      k.matter.Composite.add(k.matter.world, this.body);
-    },
+export const flash = () => {
+  const flashInterval = 0.15;
+  let flashStart = 0;
+  let _loop = null;
 
-    update () {      
-      if (!this.body) {
+  return {
+    id: 'flash',
+    get isFlashing() {
+      return _loop !== null;
+    },
+    flash (duration = 0) {
+      const end = k.time() + duration;
+
+      this.trigger('flashStart');
+      _loop = k.loop(flashInterval, () => {
+        if (k.time() >= end) {
+          this.cancelFlash();
+        }
+        this.hidden = !this.hidden;
+      })
+    },
+    cancelFlash () {
+      if (!_loop) {
         return;
       }
-
-      this.pos.x = this.body.position.x;
-      this.pos.y = this.body.position.y;
-    },
+      this.trigger('flashEnd');
+      _loop.cancel();
+      _loop = null;
+    }
   }
 }
 
@@ -118,9 +84,11 @@ export default function Ball (optsArr = []) {
     ),
     {
       angleInDeg: 0,
+      speed: 0,
+      toBeDestroyed: false,
     },
     boost(),
-    MatterBall(),
+    flash(),
     'ball',
     ...optsArr
   ]);

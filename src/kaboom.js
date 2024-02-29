@@ -1,5 +1,4 @@
 import kaboom from "kaboom";
-import { Engine, Body, Bodies, Runner, Composite } from 'matter-js'
 
 const k  = kaboom({
   width: 640,
@@ -10,18 +9,5 @@ const k  = kaboom({
 });
 
 k.setGravity(0);
-
-const matterEngine = Engine.create();
-
-k.matter = {
-  Body, Body,
-  Bodies: Bodies,
-  Composite: Composite,
-  Engine: Engine,
-  engine: matterEngine,
-  world: matterEngine.world,
-  runner: Runner.create(),
-  bodies: [],
-}
 
 export default k;

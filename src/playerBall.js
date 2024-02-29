@@ -9,7 +9,7 @@ export default function PlayerBall () {
     'player-ball',
     k.color('#f1f100'),
   ]);
-  playerBall.drag = 0.25;
+  playerBall.drag = 0.2;
 
   console.log(playerBall);
 
@@ -23,10 +23,9 @@ export default function PlayerBall () {
     const angleInDeg = radToDeg(angle);
     // save human-readable angle (in degs)
     playerBall.angleInDeg = angleInDeg;
-    // playerBall.rotateTo(angle);
-    // k.matter.Body.setAngle(playerBall.body, angle);
+    playerBall.rotateTo(angle);
     // trigger player's ball movement towards mouse pointer
-    playerBall.boost(2000, angleInDeg);
+    playerBall.boost(20);
   });
 
   // Wall Collision
@@ -53,8 +52,8 @@ export default function PlayerBall () {
     k.play('click');
   });
 
-  k.on('stopped', 'ball', () => {
-    console.log('ball stopped');
+  k.on('stopped', 'ball', (b) => {
+    console.log('ball stopped', b);
   });
 
   return playerBall;
