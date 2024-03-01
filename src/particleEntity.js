@@ -1,11 +1,11 @@
 import k from './kaboom';
 
-export default function ParticleEntity (args = [{ particleEndOfLife: 1 }]) {
+export default function ParticleEntity (particleEndOfLife = 1, args = []) {
   k.add([
     k.circle(3),
     k.color('#000000'),
     {
-      particleEndOfLife: args.particleEndOfLife,
+      particleEndOfLife: particleEndOfLife,
     },
     'particle-entity',
     ...args,

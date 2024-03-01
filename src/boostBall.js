@@ -2,6 +2,28 @@ import k from './kaboom';
 import { spawnEntity } from './helpers';
 import Ball from './ball';
 
+export const shakeEntity = (sizeX = 2, sizeY = 2, speed = 0.06) => {
+  let originX = 0;
+  let originY = 0;
+  return {
+    id: 'shake-entity',
+    shakeEntity () {
+      originX = this.pos.x;
+      originY = this.pos.y;
+
+      k.loop(speed, () => {
+        if (this.pos.x !== originX && this.pos.y !== originY) {
+          this.pos.x = originX;
+          this.pos.y = originY;
+        } else {
+          this.pos.x += k.rand(sizeX);
+          this.pos.y += k.rand(sizeY);
+        }
+      });
+    }
+  }
+}
+
 export const spawnParticles = () => {
   const spawnInterval = 0.1;
   let _loop = null;
@@ -31,13 +53,16 @@ export const spawnParticles = () => {
 export default function BoostBall (optsArr = []) {
   const boostBall = Ball([
     k.color('#000000'),
+    shakeEntity(),
     'boost-ball',
     ...optsArr,
   ]);
 
+  boostBall.shakeEntity();
+
   k.onCollide('player-ball', 'boost-ball', (pb, bb) => {
     bb.destroy();
-    pb.speed = 50;
+    pb.speed = 30;
     k.play('boost');
     k.shake(5);
   })

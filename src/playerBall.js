@@ -10,7 +10,7 @@ export default function PlayerBall () {
     k.color('#f1f100'),
     k.offscreen({ distance: 1 }),
   ]);
-  playerBall.drag = 0.2;
+  playerBall.drag = 0.1;
 
   console.log(playerBall);
 

@@ -1,6 +1,8 @@
 import BoinkBall from './boinkBall';
 import k from './kaboom';
 
+export const ballSize = 10;
+
 export const radToDeg = (angle) => (angle * 180) / Math.PI;
 
 export const spawnEntity = (entity, amount = 1, extraArgs = []) => {
@@ -9,8 +11,8 @@ export const spawnEntity = (entity, amount = 1, extraArgs = []) => {
       entity([
         // randomize position for ball
         k.pos(
-          k.rand(8, k.width()-8),
-          k.rand(8, k.height()-8),
+          k.rand(ballSize, k.width()-ballSize),
+          k.rand(ballSize, k.height()-ballSize),
         ),
         ...extraArgs,
       ]),

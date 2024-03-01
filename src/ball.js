@@ -1,3 +1,4 @@
+import { ballSize } from './helpers';
 import k from './kaboom';
 
 export const angleToVec2 = (angle) => {
@@ -70,7 +71,7 @@ export const flash = () => {
 
 export default function Ball (optsArr = []) {
   return k.add([
-    k.circle(8),
+    k.circle(ballSize),
     k.rotate(0),
     k.area(),
     k.body({ isStatic: true }),

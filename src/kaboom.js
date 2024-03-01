@@ -1,8 +1,8 @@
 import kaboom from "kaboom";
 
 const k  = kaboom({
-  width: 640,
-  height: 480,
+  width: 800,
+  height: 600,
   scale: 1,
   debug: true,
   global: false,
