@@ -6,11 +6,10 @@ export const monitorParticleLifespan = () => {
   return {
     id: 'monitor-particle-lifespan',
     add () {
-      timeOfDeath = this.particleEndOfLife + k.dt();
+      timeOfDeath = this.particleLifespan + k.time();
     },
     update () {
-      console.log(111, this);
-      if (k.dt() >= timeOfDeath) {
+      if (k.time() >= timeOfDeath) {
         this.destroy();
       }
     }
@@ -20,27 +19,30 @@ export const monitorParticleLifespan = () => {
 export const randomizeParticleMovement = (particleSpeed = 10) => {
   return {
     id: 'randomize-particle-movement',
+    require: ['body'],
     add() {
       const randomAngle = k.rand(360);
       this.angleInDeg = randomAngle;
-      // this.rotateTo(randomAngle);
+      this.drag = 0;
+      this.rotateTo(randomAngle);
       this.boost(particleSpeed);
     }
   }
 }
 
-export default function ParticleEntity (particleEndOfLife = 1, particleSpeed = 10, args = []) {
+export default function ParticleEntity (particleLifespan = 1, particleSpeed = 10, args = []) {
   k.add([
     k.circle(3),
     k.color('#000000'),
     {
-      particleEndOfLife: particleEndOfLife,
+      particleLifespan: particleLifespan,
       angleInDeg: 0,
     },
     k.area(),
     k.anchor('center'),
     k.body(),
     k.pos(),
+    k.rotate(),
     boost(),
     randomizeParticleMovement(particleSpeed),
     monitorParticleLifespan(),

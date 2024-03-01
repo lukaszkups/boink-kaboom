@@ -3,12 +3,12 @@ import { spawnEntity } from './helpers';
 import Ball from './ball';
 import ParticleEntity from './particleEntity';
 
-export const shakeEntity = (sizeX = 1, sizeY = 1, speed = 0.05) => {
+export const shakeEntity = () => {
   let originX = 0;
   let originY = 0;
   return {
     id: 'shake-entity',
-    shakeEntity () {
+    shakeEntity (sizeX = 1, sizeY = 1, speed = 0.05) {
       originX = this.pos.x;
       originY = this.pos.y;
 
@@ -27,24 +27,16 @@ export const shakeEntity = (sizeX = 1, sizeY = 1, speed = 0.05) => {
 
 export const spawnParticles = () => {
   const spawnInterval = 0.1;
-  let _loop = null;
 
   return {
     id: 'spawnParticles',
-    spawnParticles (particleEntity, amount = 1, lifetime = 1) {
-      const particleEndOfLife = k.time() + lifetime;
-
+    spawnParticles (particleEntity, amount = 1, lifetime = 1, speed = 1, extraArgs = []) {
       k.loop(spawnInterval, () => {
         for(let counter = 0; counter < amount; counter++) {
-          spawnEntity(
-            particleEntity,
-            [
-              k.pos(this.pos.x, this.pos.y),
-              { 
-                particleEndOfLife: particleEndOfLife,
-              }
-            ],
-            1,
+          particleEntity(
+            lifetime,
+            speed,
+            ...extraArgs
           );
         }
       });
