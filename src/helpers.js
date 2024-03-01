@@ -45,7 +45,6 @@ export const calculateSpeedAndAngle = (speedX, speedY) => {
 export const reflectVelocity = (entity) => {
   const { speedX, speedY } = calculateVelocity(entity.angle, entity.speed);
   const entityAngle = entity.angle;
-  // let speed = Math.sqrt(entity.vel.x * entity.vel.x + entity.vel.y * entity.vel.y);
   let normalX = Math.cos(entityAngle);
   let normalY = Math.sin(entityAngle);
   let dotProduct = speedX * normalX + speedY * normalY;

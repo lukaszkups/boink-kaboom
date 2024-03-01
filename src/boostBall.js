@@ -1,8 +1,9 @@
 import k from './kaboom';
 import { spawnEntity } from './helpers';
 import Ball from './ball';
+import ParticleEntity from './particleEntity';
 
-export const shakeEntity = (sizeX = 2, sizeY = 2, speed = 0.06) => {
+export const shakeEntity = (sizeX = 1, sizeY = 1, speed = 0.05) => {
   let originX = 0;
   let originY = 0;
   return {
@@ -36,12 +37,13 @@ export const spawnParticles = () => {
       k.loop(spawnInterval, () => {
         for(let counter = 0; counter < amount; counter++) {
           spawnEntity(
-            particleEntity([
+            particleEntity,
+            [
               k.pos(this.pos.x, this.pos.y),
               { 
                 particleEndOfLife: particleEndOfLife,
               }
-            ]), 
+            ],
             1,
           );
         }
@@ -54,11 +56,13 @@ export default function BoostBall (optsArr = []) {
   const boostBall = Ball([
     k.color('#000000'),
     shakeEntity(),
+    spawnParticles(),
     'boost-ball',
     ...optsArr,
   ]);
 
   boostBall.shakeEntity();
+  boostBall.spawnParticles(ParticleEntity);
 
   k.onCollide('player-ball', 'boost-ball', (pb, bb) => {
     bb.destroy();
