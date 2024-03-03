@@ -1,6 +1,7 @@
 import k from './kaboom';
 import { default as Ball } from './ball';
 import { getOverHere, radToDeg } from './helpers';
+import { flash, flashColor } from './utils';
 
 export default function PlayerBall () {
   // Create
@@ -9,9 +10,11 @@ export default function PlayerBall () {
     {
       isMoving: false,
     },
-    'player-ball',
     k.color('#f1f100'),
     k.offscreen({ distance: 1 }),
+    flash(),
+    flashColor(),
+    'player-ball',
   ]);
   playerBall.drag = 0.1;
 
@@ -53,6 +56,17 @@ export default function PlayerBall () {
     }
     // play sound
     k.play('click');
+  });
+
+  k.onCollide('player-ball', 'blade', (pb, b) => {
+    k.play('saw');
+    pb.flashColor(1, 0.1, '#ff0000');
+    b.destroy();
+  });
+
+  k.on('flashColorEnd', 'player-ball', (pb) => {
+    console.log(pb)
+    pb.use(k.color('#f1f100'));
   });
 
   k.on('stopped', 'player-ball', () => {

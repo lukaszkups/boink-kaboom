@@ -5,6 +5,7 @@ import PlayerBall from './playerBall';
 import { spawnEntity } from './helpers';
 import BoinkBall from './boinkBall';
 import BoostBall from './boostBall';
+import Blade from './blade';
 
 export default function Game () {
   GameAudio();
@@ -15,7 +16,8 @@ export default function Game () {
 
   const loadLevel = (level) => {
     spawnEntity(BoinkBall, level + 3);
-    if (level > 2 && k.rand(5) >= 4) {
+    spawnEntity(Blade);
+    if (level > 2 && k.rand(5) >= 2) {
       spawnEntity(BoostBall, k.rand(2));
     }
   }

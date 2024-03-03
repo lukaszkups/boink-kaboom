@@ -68,3 +68,25 @@ export const getOverHere = (entity) => {
     entity.pos.y = k.height() - 1;
   }
 }
+
+export const rgbToHex = (rgb) => {
+  // Ensure RGB values are within range
+  let clamp = function (value, min, max) {
+      return Math.min(Math.max(value, min), max);
+  };
+
+  // Convert each RGB component to hexadecimal
+  let toHex = function (value) {
+      return ('0' + clamp(value, 0, 255).toString(16)).slice(-2);
+  };
+
+  // Parse the RGB object
+  let red = toHex(rgb.r);
+  let green = toHex(rgb.g);
+  let blue = toHex(rgb.b);
+
+  // Construct the hexadecimal color representation
+  let hexColor = '#' + red + green + blue;
+
+  return hexColor.toUpperCase(); // Convert to uppercase for consistency
+}
