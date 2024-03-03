@@ -25,10 +25,11 @@ export default function BoinkBall (optsArr = []) {
     k.play('boink');
     // start flashing ball and remove its collision check
     b.toBeDestroyed = true;
+    b.trigger('add-score', 1);
     b.flash(2);
   });
 
-  k.on('flashEnd', 'boink-ball', (b) => {
-    b.destroy();
+  ball.on('flashEnd', () => {
+    ball.destroy();
   });
 }

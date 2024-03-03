@@ -21,6 +21,7 @@ export default function PlayerBall () {
   // Events
 
   k.onMousePress(() => {
+    playerBall.trigger('reduce-clicks-left', 1);
     const mousePos = k.mousePos();
     playerBall.isMoving = true;
     playerBall.rotateTo(0);
@@ -59,6 +60,7 @@ export default function PlayerBall () {
   });
 
   k.onCollide('player-ball', 'blade', (pb, b) => {
+    playerBall.trigger('reduce-clicks-left', 5);
     k.play('saw');
     pb.flashColor(1.5, 0.1, '#ff0000');
     b.trigger('blade-destroyed');
@@ -66,7 +68,6 @@ export default function PlayerBall () {
   });
 
   k.on('flashColorEnd', 'player-ball', (pb) => {
-    console.log(pb)
     pb.use(k.color('#f1f100'));
   });
 

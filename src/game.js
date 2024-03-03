@@ -6,9 +6,11 @@ import { spawnEntity } from './helpers';
 import BoinkBall from './boinkBall';
 import BoostBall from './boostBall';
 import Blade from './blade';
+import { UI } from './ui';
 
 export default function Game () {
   GameAudio();
+  UI();
   const { topWall, bottomWall, leftWall, rightWall } = GameBounds();
   const playerBall = PlayerBall();
   let level = 1;
@@ -38,6 +40,7 @@ export default function Game () {
       const boinkBalls = k.get('boink-ball');
       if (!boinkBalls?.length) {
         loadLevel(level++);
+        player[0].trigger('add-clicks-left', 3);
       }
     }
   });
