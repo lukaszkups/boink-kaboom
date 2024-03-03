@@ -1,7 +1,5 @@
 import k from './kaboom';
-import { spawnEntity } from './helpers';
 import Ball from './ball';
-import ParticleEntity from './particleEntity';
 
 export const shakeEntity = () => {
   let originX = 0;
@@ -26,21 +24,36 @@ export const shakeEntity = () => {
 }
 
 export const spawnParticles = () => {
-  const spawnInterval = 0.1;
-
+  let _loop = null;
   return {
     id: 'spawnParticles',
-    spawnParticles (particleEntity, amount = 1, lifetime = 1, speed = 1, extraArgs = []) {
-      k.loop(spawnInterval, () => {
+    add () {
+      this.onDestroy(() => {
+        // stop spawning particles
+        this.stopSpawn();
+        // destroy remaining particles
+        k.destroyAll(`particle-${this.id}`);
+      });
+    },
+    spawnParticles (spawnInterval = 0.5, amount = 1, lifetime = 1, speed = 1) {
+      _loop = k.loop(spawnInterval, () => {
         for(let counter = 0; counter < amount; counter++) {
-          particleEntity(
-            lifetime,
-            speed,
-            ...extraArgs
-          );
+          const particle = k.add([
+            k.circle(1),
+            k.opacity(1),
+            k.pos(this.pos),
+            k.move(k.rand(360), speed),
+            k.color('#000000'),
+            `particle-${this.id}`,
+          ]);
+          particle.fadeOut(lifetime).onEnd(() => particle.destroy());
         }
       });
     },
+    stopSpawn() {
+      _loop?.cancel();
+      _loop = null;
+    }
   }
 }
 
@@ -54,11 +67,11 @@ export default function BoostBall (optsArr = []) {
   ]);
 
   boostBall.shakeEntity();
-  boostBall.spawnParticles(ParticleEntity);
+  boostBall.spawnParticles(0.25, 4, 1, 50);
 
   k.onCollide('player-ball', 'boost-ball', (pb, bb) => {
     bb.destroy();
-    pb.speed = 30;
+    pb.speed = 40;
     k.play('boost');
     k.shake(5);
   })

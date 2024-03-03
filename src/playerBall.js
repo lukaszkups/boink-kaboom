@@ -6,18 +6,20 @@ export default function PlayerBall () {
   // Create
 
   const playerBall = Ball([
+    {
+      isMoving: false,
+    },
     'player-ball',
     k.color('#f1f100'),
     k.offscreen({ distance: 1 }),
   ]);
   playerBall.drag = 0.1;
 
-  console.log(playerBall);
-
   // Events
 
   k.onMousePress(() => {
     const mousePos = k.mousePos();
+    playerBall.isMoving = true;
     playerBall.rotateTo(0);
     // Rotate player's ball towards mouse pointer
     const angle = Math.atan2(mousePos.y - playerBall.pos.y, mousePos.x - playerBall.pos.x);
@@ -53,8 +55,8 @@ export default function PlayerBall () {
     k.play('click');
   });
 
-  k.on('stopped', 'ball', (b) => {
-    console.log('ball stopped', b);
+  k.on('stopped', 'player-ball', () => {
+    playerBall.isMoving = false;
   });
 
   k.onUpdate(() => {

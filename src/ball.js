@@ -38,37 +38,6 @@ export function boost() {
   }
 }
 
-export const flash = () => {
-  const flashInterval = 0.15;
-  let _loop = null;
-
-  return {
-    id: 'flash',
-    get isFlashing() {
-      return _loop !== null;
-    },
-    flash (duration = 0) {
-      const end = k.time() + duration;
-
-      this.trigger('flashStart');
-      _loop = k.loop(flashInterval, () => {
-        if (k.time() >= end) {
-          this.cancelFlash();
-        }
-        this.hidden = !this.hidden;
-      })
-    },
-    cancelFlash () {
-      if (!_loop) {
-        return;
-      }
-      this.trigger('flashEnd');
-      _loop.cancel();
-      _loop = null;
-    }
-  }
-}
-
 export default function Ball (optsArr = []) {
   return k.add([
     k.circle(ballSize),
@@ -87,7 +56,6 @@ export default function Ball (optsArr = []) {
       toBeDestroyed: false,
     },
     boost(),
-    flash(),
     'ball',
     ...optsArr
   ]);
