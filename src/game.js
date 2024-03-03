@@ -1,15 +1,15 @@
 import k from './kaboom';
 import GameBounds from './gameBounds';
-import GameAudio from './audio';
+import GameAssets from './assets';
 import PlayerBall from './playerBall';
 import { spawnEntity } from './helpers';
 import BoinkBall from './boinkBall';
 import BoostBall from './boostBall';
 import Blade from './blade';
-import { UI } from './ui';
+import UI from './ui';
 
 export default function Game () {
-  GameAudio();
+  GameAssets();
   UI();
   const { topWall, bottomWall, leftWall, rightWall } = GameBounds();
   const playerBall = PlayerBall();
@@ -19,14 +19,13 @@ export default function Game () {
 
   const loadLevel = (level) => {
     spawnEntity(BoinkBall, level + 3);
-    spawnEntity(Blade);
     // Spawn boosters
     if (level > 2 && k.rand(5) >= 2) {
       spawnEntity(BoostBall, k.rand(2));
     }
     // Spawn blades
-    if (level > 2 && k.rand(5) >= 3 && bladeCounter > 2) {
-      spawnEntity(BoostBall, k.rand(2));
+    if (level > 2 && k.rand(5) >= 3 && bladeCounter < 2) {
+      spawnEntity(Blade, k.rand(2));
       bladeCounter++;
     }
   }
@@ -40,7 +39,7 @@ export default function Game () {
       const boinkBalls = k.get('boink-ball');
       if (!boinkBalls?.length) {
         loadLevel(level++);
-        player[0].trigger('add-clicks-left', 3);
+        player[0].trigger('add-clicks-left', 1);
       }
     }
   });

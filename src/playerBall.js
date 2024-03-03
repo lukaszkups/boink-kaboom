@@ -1,11 +1,14 @@
 import k from './kaboom';
 import { default as Ball } from './ball';
 import { getOverHere, radToDeg } from './helpers';
-import { flash, flashColor } from './utils';
+import { checkIfGameOver, flash, flashColor } from './utils';
+import Score from './score';
 
 export default function PlayerBall () {
-  // Create
+  const highScoreObj = new Score();
+  highScoreObj.loadScore();
 
+  // Create
   const playerBall = Ball([
     {
       isMoving: false,
@@ -21,6 +24,11 @@ export default function PlayerBall () {
   // Events
 
   k.onMousePress(() => {
+    // check if user can still click
+    const ui = k.get('game-ui');
+    if (!ui?.length || !ui[0] || ui[0]?.clicksLeft <= 0) {
+      return;
+    }
     playerBall.trigger('reduce-clicks-left', 1);
     const mousePos = k.mousePos();
     playerBall.isMoving = true;
@@ -71,8 +79,15 @@ export default function PlayerBall () {
     pb.use(k.color('#f1f100'));
   });
 
-  k.on('stopped', 'player-ball', () => {
+  k.on('stopped', 'player-ball', async () => {
     playerBall.isMoving = false;
+    const uiQuery = k.get('game-ui');
+    const ui = uiQuery?.length ? uiQuery[0] : null;
+    if (ui && checkIfGameOver(ui, playerBall)) {
+      await k.wait(1)
+      highScoreObj.setScore(ui?.score || 0);
+      k.go('game-over');
+    }
   });
 
   k.onUpdate(() => {

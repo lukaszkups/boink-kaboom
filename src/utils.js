@@ -130,3 +130,6 @@ export const flashColor = () => {
   }
 }
 
+export const checkIfGameOver = (ui, playerball) => {
+  return ui.clicksLeft <= 0 && !playerball.isMoving;
+}

@@ -17,10 +17,17 @@ export default function BoinkBall (optsArr = []) {
       return;
     }
     // calculate and set new angle for player ball
-    const angle = reflectVelocity(pb);
+    let angle = reflectVelocity(pb);
+    // add some randomness to new angle
+    const prevAngle = pb.agle;
+    if (prevAngle <= angle) {
+      angle += k.rand(100)/100;
+    } else {
+      angle -= k.rand(100)/100;
+    }
     const angleInDeg = radToDeg(angle);
     pb.angleInDeg += angleInDeg;
-    pb.rotateTo(k.rand(15) + angle);
+    pb.rotateTo(angle);
     pb.speed -= 2;
     k.play('boink');
     // start flashing ball and remove its collision check
