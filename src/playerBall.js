@@ -60,9 +60,9 @@ export default function PlayerBall () {
 
   k.onCollide('player-ball', 'blade', (pb, b) => {
     k.play('saw');
-    pb.flashColor(1, 0.1, '#ff0000');
+    pb.flashColor(1.5, 0.1, '#ff0000');
+    b.trigger('blade-destroyed');
     b.destroy();
-    k.trigger('blade-destroyed');
   });
 
   k.on('flashColorEnd', 'player-ball', (pb) => {
