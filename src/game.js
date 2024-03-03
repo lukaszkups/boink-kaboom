@@ -13,12 +13,19 @@ export default function Game () {
   const playerBall = PlayerBall();
   let level = 1;
   let sawCounter = 0;
+  let bladeCounter = 0;
 
   const loadLevel = (level) => {
     spawnEntity(BoinkBall, level + 3);
     spawnEntity(Blade);
+    // Spawn boosters
     if (level > 2 && k.rand(5) >= 2) {
       spawnEntity(BoostBall, k.rand(2));
+    }
+    // Spawn blades
+    if (level > 2 && k.rand(5) >= 3 && bladeCounter > 2) {
+      spawnEntity(BoostBall, k.rand(2));
+      bladeCounter++;
     }
   }
 
@@ -33,5 +40,9 @@ export default function Game () {
         loadLevel(level++);
       }
     }
+  });
+
+  k.on('blade-destroyed', () => {
+    bladeCounter--;
   });
 }

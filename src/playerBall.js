@@ -62,6 +62,7 @@ export default function PlayerBall () {
     k.play('saw');
     pb.flashColor(1, 0.1, '#ff0000');
     b.destroy();
+    k.trigger('blade-destroyed');
   });
 
   k.on('flashColorEnd', 'player-ball', (pb) => {
