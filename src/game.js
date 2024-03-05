@@ -7,6 +7,7 @@ import BoinkBall from './boinkBall';
 import BoostBall from './boostBall';
 import Blade from './blade';
 import UI from './ui';
+import Magnet from './magnet';
 
 export default function Game () {
   GameAssets();
@@ -17,11 +18,16 @@ export default function Game () {
   let sawCounter = 0;
   let bladeCounter = 0;
 
+
   const loadLevel = (level) => {
     spawnEntity(BoinkBall, level + 3);
     // Spawn boosters
     if (level > 2 && k.rand(5) >= 2) {
       spawnEntity(BoostBall, k.rand(2));
+    }
+    // Spawn magnet, same rules as boosters but are independently randomized
+    if (level > 2 && k.rand(5) >= 2) {
+      spawnEntity(Magnet, k.rand(2));
     }
     // Spawn blades
     if (level > 2 && k.rand(5) >= 3 && bladeCounter < 2) {
