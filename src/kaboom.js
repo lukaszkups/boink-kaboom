@@ -1,8 +1,11 @@
-import kaboom from "kaboom";
+import kaboom from 'kaboom';
+import { getGameSizes } from './helpers';
+
+const { width, height } = getGameSizes();
 
 const k  = kaboom({
-  width: 800,
-  height: 600,
+  width: width,
+  height: height,
   scale: 1,
   global: false,
   debug: false,

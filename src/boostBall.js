@@ -19,5 +19,7 @@ export default function BoostBall (optsArr = []) {
     pb.speed = 40;
     k.play('boost');
     k.shake(5);
-  })
+  });
+
+  return boostBall;
 }

@@ -1,4 +1,3 @@
-import BoinkBall from './boinkBall';
 import k from './kaboom';
 
 export const ballSize = 10;
@@ -89,4 +88,25 @@ export const rgbToHex = (rgb) => {
   let hexColor = '#' + red + green + blue;
 
   return hexColor.toUpperCase(); // Convert to uppercase for consistency
+}
+
+export const getGameSizes = (width = 800, height = 600, minWidth = 640, minHeight = 480, safetyMargin = 20) => {
+  const heightRatio = height/width;
+  const widthRatio = Math.abs(1 - heightRatio);
+  const clientWidth = document.body.clientWidth - safetyMargin;
+  const clientHeight = document.body.clientHeight - safetyMargin;
+  let gameWidth = clientWidth;
+  let gameHeight = clientWidth * heightRatio;
+
+  if (gameHeight > clientHeight) {
+    gameHeight = clientHeight - safetyMargin;
+    gameWidth = gameHeight * widthRatio;
+  }
+
+  if (gameWidth < minWidth) {
+    gameWidth = minWidth;
+    gameHeight = minHeight;
+  }
+
+  return { width: gameWidth, height: gameHeight }
 }
