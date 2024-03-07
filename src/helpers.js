@@ -90,14 +90,13 @@ export const rgbToHex = (rgb) => {
   return hexColor.toUpperCase(); // Convert to uppercase for consistency
 }
 
-export const getGameSizes = (width = 800, height = 600, minWidth = 640, minHeight = 480, safetyMargin = 20) => {
+export const getGameSizes = (width = 800, height = 600, minWidth = 640, minHeight = 480, safetyMargin = 0) => {
   const heightRatio = height/width;
-  const widthRatio = Math.abs(1 - heightRatio);
+  const widthRatio = 1 + Math.abs(1 - heightRatio);
   const clientWidth = document.body.clientWidth - safetyMargin;
   const clientHeight = document.body.clientHeight - safetyMargin;
   let gameWidth = clientWidth;
   let gameHeight = clientWidth * heightRatio;
-
   if (gameHeight > clientHeight) {
     gameHeight = clientHeight - safetyMargin;
     gameWidth = gameHeight * widthRatio;
@@ -108,5 +107,11 @@ export const getGameSizes = (width = 800, height = 600, minWidth = 640, minHeigh
     gameHeight = minHeight;
   }
 
-  return { width: gameWidth, height: gameHeight }
+  let scale = width/gameWidth;
+  if (scale < 1) {
+    gameWidth *= scale;
+    gameHeight *= scale;
+    scale = 2 - scale;
+  }
+  return { width: gameWidth, height: gameHeight, scale }
 }

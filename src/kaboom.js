@@ -1,12 +1,12 @@
 import kaboom from 'kaboom';
 import { getGameSizes } from './helpers';
 
-const { width, height } = getGameSizes();
+const { width, height, scale } = getGameSizes();
 
 const k  = kaboom({
   width: width,
   height: height,
-  scale: 1,
+  scale: scale,
   global: false,
   debug: false,
   pixelDensity: 2,
